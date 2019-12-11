@@ -43,6 +43,13 @@ namespace CertGenerator
         public string InPfxPassword { get; set; }        
     }
 
+    [Verb("generate-self-signed", HelpText = "Generate self-signed certificate")]
+    class SelfSignedOptions : BaseOptions
+    {
+        [Option("no-dns", Default = true, HelpText ="Do not add a dns name to the certificate")]
+        public bool DoNotAddDns { get; set; }
+    }
+
     [Verb("generate", HelpText = "Generate client certificate")]
     class Options : BaseOptions
     {     

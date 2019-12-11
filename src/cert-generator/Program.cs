@@ -13,10 +13,11 @@ namespace CertGenerator
         static int Main(string[] args)
         {
 
-            int result = CommandLine.Parser.Default.ParseArguments<RootOptions, IcaOptions, Options>(args)
+            int result = CommandLine.Parser.Default.ParseArguments<RootOptions, IcaOptions, SelfSignedOptions, Options>(args)
                 .MapResult(
                     (RootOptions ro) => RunRootAuthority(ro),
                     (IcaOptions io) => RunIntermediateOptions(io),
+                    (SelfSignedOptions so) => RunSelfSignedOptions(so),
                     (Options o) => RunCertificateOptions(o),
                     errs => 1);
 
@@ -50,6 +51,21 @@ namespace CertGenerator
                 if (false == io.NoPem)
                     File.WriteAllText(io.PfxFile + ".pem", cert.ToPem());
                
+            }
+
+            return 0;
+        }
+
+        static int RunSelfSignedOptions(SelfSignedOptions so)
+        {
+            using (CertificateRootAuthority rootAuthority = new CertificateRootAuthority())
+            {
+                X509Certificate2 cert = rootAuthority.GenerateSelfSignedCertificate(so.SubjectName, so.DoNotAddDns);
+                byte[] pfxBytes = cert.Export(X509ContentType.Pfx, so.PfxPassword);
+                File.WriteAllBytes(so.PfxFile + ".pfx", pfxBytes);
+
+                if (false == so.NoPem)
+                    File.WriteAllText(so.PfxFile + ".pem", cert.ToPem());
             }
 
             return 0;
