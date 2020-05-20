@@ -48,6 +48,9 @@ namespace CertGenerator
     {
         [Option("no-dns", Default = true, HelpText ="Do not add a dns name to the certificate")]
         public bool DoNotAddDns { get; set; }
+
+        [Option("valid-days", Default = 365, HelpText = "How many days is this certificate valid?")]
+        public int ValidDays { get; set; }
     }
 
     [Verb("generate", HelpText = "Generate client certificate")]

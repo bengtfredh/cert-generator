@@ -60,7 +60,7 @@ namespace CertGenerator
         {
             using (CertificateRootAuthority rootAuthority = new CertificateRootAuthority())
             {
-                X509Certificate2 cert = rootAuthority.GenerateSelfSignedCertificate(so.SubjectName, so.DoNotAddDns);
+                X509Certificate2 cert = rootAuthority.GenerateSelfSignedCertificate(so.SubjectName, so.DoNotAddDns, so.ValidDays);
                 byte[] pfxBytes = cert.Export(X509ContentType.Pfx, so.PfxPassword);
                 File.WriteAllBytes(so.PfxFile + ".pfx", pfxBytes);
 
