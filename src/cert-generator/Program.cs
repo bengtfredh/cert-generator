@@ -66,6 +66,11 @@ namespace CertGenerator
 
                 if (false == so.NoPem)
                     File.WriteAllText(so.PfxFile + ".pem", cert.ToPem());
+
+                if (so.ExportKey)
+                {                    
+                    File.WriteAllText(so.PfxFile + ".key", cert.ToPrivateKeyPkcs());
+                }
             }
 
             return 0;
