@@ -51,6 +51,9 @@ namespace CertGenerator
 
         [Option("valid-days", Default = 365, HelpText = "How many days is this certificate valid?")]
         public int ValidDays { get; set; }
+
+        [Option("not-before", Required = false, Default = "", HelpText = "Format: dd.MM.yyyy HH:mm")]
+        public string NotBefore { get; set;}
     }
 
     [Verb("generate", HelpText = "Generate client certificate")]

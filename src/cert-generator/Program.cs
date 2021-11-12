@@ -60,7 +60,19 @@ namespace CertGenerator
         {
             using (CertificateRootAuthority rootAuthority = new CertificateRootAuthority())
             {
-                X509Certificate2 cert = rootAuthority.GenerateSelfSignedCertificate(so.SubjectName, so.DoNotAddDns, so.ValidDays);
+                DateTimeOffset notBefore = DateTimeOffset.UtcNow.AddDays(-1);
+
+                if (!string.IsNullOrEmpty(so.NotBefore))
+                {
+                    notBefore = DateTimeOffset.ParseExact(so.NotBefore, "dd.MM.yyyy HH:mm", null);                    
+                }
+
+                
+
+                DateTimeOffset notAfter = notBefore.AddDays(so.ValidDays);
+
+                X509Certificate2 cert = rootAuthority.GenerateSelfSignedCertificate(so.SubjectName, so.DoNotAddDns, notBefore, notAfter);
+
                 byte[] pfxBytes = cert.Export(X509ContentType.Pfx, so.PfxPassword);
                 File.WriteAllBytes(so.PfxFile + ".pfx", pfxBytes);
 

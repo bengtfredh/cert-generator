@@ -57,7 +57,7 @@ namespace CertGenerator.Implementation
 
         }
 
-        public X509Certificate2 GenerateSelfSignedCertificate(string subjectName, bool doNotAddDnsName, int validDays)
+        public X509Certificate2 GenerateSelfSignedCertificate(string subjectName, bool doNotAddDnsName, DateTimeOffset notBefore, DateTimeOffset notAfter)
         {
             using (RSA key = RSA.Create(_defaultKeyLength))
             {
@@ -84,9 +84,8 @@ namespace CertGenerator.Implementation
                     s.AddDnsName(subjectName.Substring("CN=".Length));
                     request.CertificateExtensions.Add(s.Build());
                 }
-
-                X509Certificate2 certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow.AddDays(-1),
-                    DateTimeOffset.UtcNow.AddDays(validDays));
+                
+                X509Certificate2 certificate = request.CreateSelfSigned(notBefore, notAfter);                    
 
 
                 return certificate;
