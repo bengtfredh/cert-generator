@@ -24,7 +24,7 @@ namespace CertGenerator
         public bool ExportKey { get; set; }
 
         [Option("no-pem", Required = false, Default = false)]
-        public bool NoPem { get; set; }       
+        public bool NoPem { get; set; }
     }
 
     [Verb("generate-ca", HelpText = "Generate root authority")]
