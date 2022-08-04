@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: cert-generator
-      REGISTRY: ghcr.io/altinn
+      REGISTRY: ghcr.io/bengtfredh
     steps:
     - name: Clone the repository
       uses: actions/checkout@v2
